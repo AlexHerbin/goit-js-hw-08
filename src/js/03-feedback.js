@@ -12,6 +12,7 @@ form.addEventListener('input', throttle(onTextInput, 500));
 
 function onFormSubmit(e) {
     e.preventDefault();
+    console.log(JSON.parse(localStorage.getItem(STORAGE_KEY)))
     e.currentTarget.reset();
     localStorage.removeItem(STORAGE_KEY);
 }
@@ -27,8 +28,10 @@ function populateTexArea() {
     const formData = JSON.parse(saveMassage);
 
     if (saveMassage) {
-        form.email.value = formData.email;
-        form.message.value = formData.message;
+        form.email.value = formData.email || '';
+        form.message.value = formData.message || '';
     }
+
+
 };
     
