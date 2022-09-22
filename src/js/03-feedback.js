@@ -1,6 +1,5 @@
 import throttle from "lodash.throttle";
 
-const formData = {};
 const STORAGE_KEY = 'feedback-form-state';
 
 const form = document.querySelector('form');
@@ -18,20 +17,19 @@ function onFormSubmit(e) {
 }
 
 function onTextInput(e) {
+    // const messageLocal = localStorage.setItem(STORAGE_KEY, stringData);
+    let formData = localStorage.getItem(STORAGE_KEY);
+    formData = formData ? JSON.parse(formData) : {};
     formData[e.target.name] = e.target.value;
-    const stringData = JSON.stringify(formData);
-    const messageLocal= localStorage.setItem(STORAGE_KEY, stringData)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
 function populateTexArea() {
-    const saveMassage = localStorage.getItem(STORAGE_KEY);
-    const formData = JSON.parse(saveMassage);
+    let formData = localStorage.getItem(STORAGE_KEY);
 
-    if (saveMassage) {
-        form.email.value = formData.email || '';
-        form.message.value = formData.message || '';
+    if (formData) {
+        formData = JSON.parse(formData);
+        Object.entries(formData).forEach(([name, value]) => form.elements[name].value = value)
     }
-
-
 };
     
